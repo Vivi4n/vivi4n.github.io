@@ -1,4 +1,3 @@
-
 // Bongo Cat originally created by @StrayRogue and @DitzyFlama
 
 const ID = "bongo-cat";
@@ -53,13 +52,19 @@ tl.add(animatePawState(cat.pawLeft.up), "start")
   .add(animatePawState(cat.pawRight.up), "start+=0.19")
   .timeScale(1.6);
 
-gsap.from(".terminal-code line", {
-  drawSVG: "0%",
-  duration: 0.1,
-  stagger: 0.1,
-  ease: "none",
-  repeat: -1,
-});
+gsap.fromTo(".terminal-code line", 
+  { 
+    strokeDasharray: "100%",
+    strokeDashoffset: "100%"
+  },
+  {
+    strokeDashoffset: 0,
+    duration: 0.1,
+    stagger: 0.1,
+    ease: "none",
+    repeat: -1
+  }
+);
 
 const noteElFn = gsap.utils.pipe(gsap.utils.toArray, gsap.utils.shuffle);
 const noteEls = noteElFn(music.note);
