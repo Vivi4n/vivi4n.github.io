@@ -10,7 +10,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/DrawSVGPlugin.min.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="layout">
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="dots">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <div class="terminal-title">visitor@vivian:~$</div>
+            </div>
+            <div class="terminal-window" id="terminal-window">
+            </div>
+            <div class="terminal-input-line">
+                <span class="prompt">❯</span>
+                <input type="text" id="terminal-input" autofocus>
+            </div>
+        </div>
+        <div class="container">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 783.55 354.91">
             <g id="bongo-cat">
                 <g class="head">

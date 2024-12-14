@@ -1,77 +1,221 @@
 :root {
-    --bg: #1a1e2d;
-    --green: #a5ea9b;
-    --pink: #ff61d8;
-    --blue: #569cfa;
-    --orange: #ffcc81;
-    --cyan: #7ed1e2;
+  --bg: #1a1e2d;
+  --green: #a5ea9b;
+  --pink: #ff61d8;
+  --blue: #569cfa;
+  --orange: #ffcc81;
+  --cyan: #7ed1e2;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  background: var(--bg);
+  display: flex;
+  place-content: center;
+  align-items: flex-start;
+  overflow-x: hidden;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 2rem;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+  overflow-y: auto;
+}
+
+.terminal {
+  background: #1d1d1d;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 800px;
+  height: 45vh;
+  margin: 0 auto;
+}
+
+.terminal-header {
+  background: #2d2d2d;
+  padding: 0.5rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.dots {
+  display: flex;
+  gap: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
+
+.terminal-title {
+  color: var(--cyan);
+  margin-left: 1rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.terminal-window {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  font-family: monospace;
+  color: #fff;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.terminal-window::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-window::-webkit-scrollbar-track {
+  background: #1d1d1d;
+}
+
+.terminal-window::-webkit-scrollbar-thumb {
+  background: #2d2d2d;
+  border-radius: 4px;
+}
+
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  gap: 0.5rem;
+  border-top: 1px solid #2d2d2d;
+}
+
+.prompt {
+  color: var(--green);
+  font-family: monospace;
+}
+
+#terminal-input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: monospace;
+  font-size: 0.9rem;
+  flex: 1;
+  outline: none;
+}
+
+.terminal-line {
+  margin-bottom: 0.5rem;
+  white-space: pre-wrap;
+}
+
+.terminal-line.error { color: var(--pink); }
+.terminal-line.success { color: var(--green); }
+.terminal-line.system { color: var(--cyan); }
+
+.container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  padding: 2rem 0;
+  pointer-events: none;
+}
+
+.container svg {
+  width: 100%;
+  height: auto;
+  max-width: 750px;
+  object-fit: contain;
+}
+
+#bongo-cat {
+  fill: var(--bg);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+  transform: scale(1);
+  transform-origin: center;
+}
+
+#bongo-cat .laptop-cover,
+#bongo-cat .headphone .band {
+  fill: none;
+}
+
+#bongo-cat .paw, 
+#bongo-cat .head {
+  stroke: var(--orange);
+}
+
+#bongo-cat .laptop-keyboard {
+  stroke-width: 2;
+}
+
+#bongo-cat .terminal-code {
+  stroke-width: 5;
+}
+
+#bongo-cat .music .note,
+#bongo-cat .laptop-base,
+#bongo-cat .laptop-cover,
+#bongo-cat .paw .pads {
+  stroke: var(--pink);
+}
+
+#bongo-cat .table line,
+#bongo-cat .headphone .band,
+#bongo-cat .headphone .speaker path:nth-child(3) {
+  stroke: var(--green);
+}
+
+#bongo-cat .terminal-frame,
+#bongo-cat .laptop-keyboard,
+#bongo-cat .headphone .speaker path:nth-child(2) {
+  stroke: var(--blue);
+}
+
+#bongo-cat .terminal-code,
+#bongo-cat .headphone .speaker path:first-child {
+  stroke: var(--cyan);
+}
+
+@media (max-width: 768px) {
+  .layout {
+    padding: 1rem;
   }
-  
-  body {
-    height: 100vh;
-    width: 100vw;
-    background: var(--bg);
-    display: flex;
-    place-content: center;
-    align-items: flex-end;
-    overflow: hidden;
+
+  .terminal {
+    width: 95%;
+    height: 50vh;
+    margin: 0;
   }
-  
-  .container  {
-    width: 80vw;
-    height: 80vh;
-    
-    svg {
-      height: 100%;
-      width: 100%;
-      overflow: visible;
-    }
+
+  .container {
+    padding: 1rem 0;
   }
-  
-  #bongo-cat {
-    fill: var(--bg);
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 4;
-    
-    .laptop-cover,
-    .headphone .band {
-      fill: none;
-    }
-    
-    .paw, .head {
-      stroke: var(--orange);
-    }
-    
-    .laptop-keyboard {
-      stroke-width: 2;
-    }
-    
-    .terminal-code {
-      stroke-width: 5;  
-    }
-    
-    .music .note, 
-    .laptop-base, 
-    .laptop-cover,
-    .paw .pads {
-      stroke: var(--pink);   
-    }
-    
-    .table line,
-    .headphone .band,
-    .headphone .speaker path:nth-child(3) {
-      stroke: var(--green);
-    }
-  
-    .terminal-frame,
-    .laptop-keyboard,
-    .headphone .speaker path:nth-child(2) {
-      stroke: var(--blue);
-    }
-    
-    .terminal-code,
-    .headphone .speaker path:first-child {
-      stroke: var(--cyan);
-    }
+
+  .container svg {
+    max-width: 90%;
   }
+}
