@@ -320,13 +320,13 @@ const terminal = {
     * Confluence
     * Team Collaboration Tools`
     }),
-    vyley: () => ({
-      type: 'success',
-      content: `Hey hun :3
-I love you a lot.
-You're my world.
-Always will be. Unconditionally and forever.`
-    }),
+    vyley: () => {
+      window.location.href = 'valentine.html';
+      return {
+          type: 'success',
+          content: 'Opening Valentine\'s message... ❤️'
+      };
+    },
     contact: () => ({
       type: 'success',
       content: `You can find me here :3

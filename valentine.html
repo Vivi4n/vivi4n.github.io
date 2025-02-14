@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Valentine ❤️</title>
+    <style>
+        :root {
+            --bg: #323232;
+            --heart-color: #D8124B;
+        }
+
+        body {
+            background: 
+                radial-gradient(circle closest-side at 60% 43%, #323232 26%, rgba(187,0,51,0) 27%),
+                radial-gradient(circle closest-side at 40% 43%, #323232 26%, rgba(187,0,51,0) 27%),
+                radial-gradient(circle closest-side at 40% 22%, #373737 45%, rgba(221,51,85,0) 46%),
+                radial-gradient(circle closest-side at 60% 22%, #373737 45%, rgba(221,51,85,0) 46%),
+                radial-gradient(circle closest-side at 50% 35%, #373737 30%, rgba(221,51,85,0) 31%),
+                radial-gradient(circle closest-side at 60% 43%, #323232 26%, rgba(187,0,51,0) 27%) 50px 50px,
+                radial-gradient(circle closest-side at 40% 43%, #323232 26%, rgba(187,0,51,0) 27%) 50px 50px,
+                radial-gradient(circle closest-side at 40% 22%, #3c3c3c 45%, rgba(221,51,85,0) 46%) 50px 50px,
+                radial-gradient(circle closest-side at 60% 22%, #3c3c3c 45%, rgba(221,51,85,0) 46%) 50px 50px,
+                radial-gradient(circle closest-side at 50% 35%, #3c3c3c 30%, rgba(221,51,85,0) 31%) 50px 50px;
+            background-color: #323232;
+            background-size: 100px 100px;
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .centered {
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .centered h4 {
+            color: #FFFFFF;
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        input[type=checkbox] {
+            display: none;
+        }
+
+        label {
+            height: 40px;
+            width: auto;
+            padding: 10px 40px;
+            display: inline-block;
+            cursor: pointer;
+            margin: 0 20px;
+            border-radius: 5px;
+            color: #FFFFFF;
+            font-size: 1.5em;
+            line-height: 1.5em;
+            text-transform: uppercase;
+            transition: all .25s ease-in-out;
+        }
+
+        label:hover {
+            transform: scale(1.1,1.1);
+        }
+
+        .no {
+            background-color: #D8124B;
+        }
+
+        .yes {
+            background-color: #12D890;
+        }
+
+        .answer--yes, .answer--no {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity .5s ease-in-out;
+        }
+
+        .answer--yes {
+            background-image: url('https://media.giphy.com/media/a3IWyhkEC0p32/giphy.gif');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .answer--no {
+            background-image: url('https://media.giphy.com/media/QBEhpJHrv7poQ/giphy.gif');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        input.yes[type=checkbox]:checked ~ .answer--yes {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        input.no[type=checkbox]:checked ~ .answer--no {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .signature {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .signature p {
+            font-family: Helvetica, Arial, Sans-Serif;
+            font-size: 0.85em;
+            color: #FFFFFF;
+        }
+
+        .signature .much-heart {
+            display: inline-block;
+            position: relative;
+            margin: 0 4px;
+            height: 10px;
+            width: 10px;
+            background: #D8124B;
+            border-radius: 4px;
+            transform: rotate(45deg);
+        }
+
+        .signature .much-heart::before, 
+        .signature .much-heart::after {
+            display: block;
+            content: '';
+            position: absolute;
+            margin: auto;
+            height: 10px;
+            width: 10px;
+            border-radius: 5px;
+            background: #D8124B;
+            top: -4px;
+        }
+
+        .signature .much-heart::after {
+            bottom: 0;
+            top: auto;
+            left: -4px;
+        }
+
+        .signature a {
+            color: #D8124B;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signature a:hover {
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 768px) {
+            .centered h4 {
+                font-size: 2em;
+            }
+
+            label {
+                padding: 8px 30px;
+                font-size: 1.2em;
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="centered">
+        <h4>Will you be my Valentine, Viola?</h4>
+        <input class="no" type="checkbox" name="answer" id="No">
+        <label class="no" for="No">Nope</label>
+        
+        <input class="yes" type="checkbox" name="answer" id="Yes">
+        <label class="yes" for="Yes">Yup</label>
+        
+        <div class="answer--yes"></div>
+        <div class="answer--no"></div>
+    </div>
+    
+    <div class="signature">
+        <p>Made with <i class="much-heart"></i> by <a href="https://vivi4n.github.io">Viv with a lot of love</a></p>
+    </div>
+</body>
+</html>
