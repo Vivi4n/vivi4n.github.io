@@ -135,6 +135,7 @@ const terminal = {
 - clear: Clear terminal
 - cat: Hide the catto. Or show it.
 - github: Open my GitHub profile (I hate frontend)
+- twitch: Open my Stream on Twitch.tv
 - ascii: Show a cool ASCII art
 - date: Show current date and time`
     }),
@@ -331,6 +332,7 @@ const terminal = {
       type: 'success',
       content: `You can find me here :3
 • GitHub: https://github.com/vivi4n
+• Twitch: https://www.twitch.tv/viv4n
 • Ko-Fi: https://ko-fi.com/vivi4n
 • Discord: viv4n`
     }),
@@ -363,6 +365,14 @@ const terminal = {
       return {
         type: 'system',
         content: 'Opening GitHub profile...'
+      };
+    }
+  },
+  twitch: () => {
+      window.open('https://www.twitch.tv/viv4n', '_blank');
+      return {
+        type: 'system',
+        content: 'Opening Twitch.tv/...'
       };
     }
   },
