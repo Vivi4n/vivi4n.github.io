@@ -374,7 +374,7 @@ const terminal = {
         content: 'Opening Twitch.tv/...'
       };
     }
-  };
+  },
 
   init() {
     this.addLine('Hi there, welcome to my little portfolio 👋', 'system');
