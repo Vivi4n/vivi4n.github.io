@@ -366,16 +366,14 @@ const terminal = {
         type: 'system',
         content: 'Opening GitHub profile...'
       };
-    }
-  },
-  twitch: () => {
+    },
+    twitch: () => {
       window.open('https://www.twitch.tv/viv4n', '_blank');
       return {
         type: 'system',
         content: 'Opening Twitch.tv/...'
       };
-    }
-  },
+    },
 
   init() {
     this.addLine('Hi there, welcome to my little portfolio 👋', 'system');
