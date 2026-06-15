@@ -328,6 +328,13 @@ const terminal = {
           content: 'Opening Valentine\'s message... ❤️'
       };
     },
+    love: () => {
+      window.location.href = 'anniversary/';
+      return {
+          type: 'success',
+          content: 'Two years of us... 💛 Opening, my love.'
+      };
+    },
     contact: () => ({
       type: 'success',
       content: `You can find me here :3

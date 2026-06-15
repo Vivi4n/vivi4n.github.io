@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Two Years of Us 💛</title>
+<link rel="icon" type="image/png" href="../favicon.png" />
+
+<!-- ───────────────────────── Fonts ───────────────────────── -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- page-wide background: animated glow + drifting hearts (fixed behind all content) -->
+<div class="page-bg" aria-hidden="true"></div>
+<canvas class="hearts-bg" id="heartsCanvas" aria-hidden="true"></canvas>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  HERO                                                      ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<header class="hero" id="hero">
+  <div class="hero__inner">
+    <p class="hero__eyebrow reveal" data-reveal>Happy Anniversary</p>
+    <h1 class="hero__title">
+      <span class="reveal" data-reveal style="--d:.1s">Two years</span>
+      <span class="reveal hero__title-script" data-reveal style="--d:.35s">of us</span>
+    </h1>
+    <p class="hero__names reveal" data-reveal style="--d:.6s">
+      <span id="yourName">You</span> &amp; <span id="partnerName">Her</span>
+    </p>
+
+    <div class="counter reveal" data-reveal style="--d:.85s" id="counter" aria-live="polite">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <button class="scroll-cue" data-scroll-to="#intro" aria-label="Scroll down">
+    <span>scroll</span>
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path d="M12 4v14M6 12l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</header>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  INTRO                                                     ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="intro" id="intro">
+  <p class="intro__text reveal" data-reveal>
+    There are a thousand little reasons,<br />
+    but here are a few of my favorites.
+  </p>
+  <div class="intro__divider reveal" data-reveal style="--d:.2s" aria-hidden="true">♡</div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  REASONS  (rendered by JS from CONFIG.reasons)             ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<main class="reasons" id="reasons"><!-- filled by JS --></main>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  INTERACTIVE — pick-a-card                                 ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="cards" id="cards">
+  <h2 class="section-heading reveal" data-reveal>A few little secrets</h2>
+  <p class="cards__hint reveal" data-reveal style="--d:.15s">Tap a heart to open it 💌</p>
+  <div class="cards__grid" id="cardGrid"><!-- filled by JS --></div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  FINALE                                                    ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="finale" id="finale">
+  <canvas class="finale__confetti" id="confettiCanvas" aria-hidden="true"></canvas>
+  <div class="finale__inner">
+    <h2 class="finale__title reveal" data-reveal id="finaleTitle"></h2>
+    <p class="finale__message reveal" data-reveal style="--d:.3s" id="finaleMessage"></p>
+    <p class="finale__sign reveal" data-reveal style="--d:.6s">
+      — <span id="finaleSign">You</span>
+    </p>
+    <button class="finale__replay" id="replayBtn">play it again ♡</button>
+  </div>
+</section>
+
+<!-- floating music toggle (optional, off by default) -->
+<button class="music-toggle" id="musicToggle" aria-pressed="false" title="Play music">
+  <span class="music-toggle__icon" aria-hidden="true">♪</span>
+</button>
+<audio id="bgm" loop preload="none">
+  <!-- Drop a song here, e.g. <source src="our-song.mp3" type="audio/mpeg"> -->
+</audio>
+
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
