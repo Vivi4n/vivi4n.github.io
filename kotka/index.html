@@ -267,6 +267,18 @@
                         </div>
                     </div>
 
+                    <div class="radio">
+                        <div class="radio-head">
+                            <span>~/kotka/radio</span>
+                            <label class="volume" title="radio volume">
+                                <span id="volume-label">🔉 10%</span>
+                                <input type="range" id="radio-volume" min="0" max="100" step="5" value="10" aria-label="Radio volume">
+                            </label>
+                            <button id="radio-btn" type="button">🎧 play lofi</button>
+                        </div>
+                        <div class="radio-player" id="radio-player" hidden></div>
+                    </div>
+
                     <div class="log-wrap">
                         <div class="log-head">~/kotka/activity.log</div>
                         <div class="log" id="log"></div>

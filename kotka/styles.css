@@ -586,6 +586,36 @@ button { font: inherit; cursor: pointer; }
 .modal-body::-webkit-scrollbar-thumb { background: var(--term-head); border-radius: 4px; }
 .modal-body::-webkit-scrollbar-track { background: var(--term); }
 
+.radio { border: 1px solid var(--term-head); border-radius: 8px; overflow: hidden; }
+.radio-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--term-head);
+  color: var(--cyan);
+  font-size: 0.75rem;
+  padding: 4px 4px 4px 10px;
+}
+.radio-head button {
+  background: var(--term);
+  color: var(--lavender);
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  padding: 3px 8px;
+}
+.radio-head button:hover { border-color: var(--lavender); }
+.radio-head .volume { display: flex; align-items: center; gap: 6px; margin-left: auto; margin-right: 8px; color: var(--muted); }
+.radio-head .volume span { min-width: 3.6em; text-align: right; }
+.radio-head input[type="range"] { width: 80px; accent-color: var(--lavender); cursor: pointer; }
+.radio-player { aspect-ratio: 16 / 9; min-height: 200px; background: #000; }
+.radio-player[hidden] { display: none; }
+.radio-player iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* bopping along to the radio */
+.kitty.vibing:is([data-mood="content"], [data-mood="meh"]) .bob { animation: vibe 0.85s ease-in-out infinite; }
+@keyframes vibe { 0%, 100% { transform: rotate(-3deg) translateY(0); } 50% { transform: rotate(3deg) translateY(-2px); } }
+
 .reset {
   align-self: flex-end;
   background: none;

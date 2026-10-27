@@ -383,10 +383,12 @@ const TASKS = [
   },
 ];
 
-// stretch the base lengths above: quick tickets get noticeably longer, long ones only a little
+// stretch the base lengths above: quick tickets get noticeably longer, long ones only a little,
+// and bump xp to match (most tickets land around 16-24 xp per minute)
 for (const t of TASKS) {
   const secs = t.secs * 1.3 + 30;
   t.secs = secs < 120 ? Math.round(secs / 5) * 5 : Math.round(secs / 30) * 30;
+  t.xp = Math.round(t.xp * 1.5);
 }
 
 // tickets that count towards "Best wife ever"
@@ -452,6 +454,7 @@ const TROPHIES = [
   { id: "starlit", icon: "✨", name: "Starlit", desc: "Raise a Starlit Empress (2 or fewer care mistakes)" },
   { id: "gremlin", icon: "👹", name: "Gremlin tamer", desc: "Raise a Chaos Gremlin" },
   { id: "perfect", icon: "🏵️", name: "Perfect parent", desc: "Grow up with zero care mistakes" },
+  { id: "lofi", icon: "🎧", name: "Beats to debug to", desc: "Listen to lofi with Vyley" },
   { id: "lv15", icon: "🌙", name: "Aspect of Twilight", desc: "Reach level 15" },
   { id: "chaos", icon: "💥", name: "Agent of chaos", desc: "Knock 5 mugs off the desk" },
   { id: "laser", icon: "🔴", name: "Red dot hunter", desc: "Catch the laser 6 times in one game" },
@@ -495,6 +498,13 @@ const LINES = {
   night: ["it's late. лека нощ soon, okay?", "the stars are out. twilight's over, but I'm still here."],
   pet: ["prrr", "♡", "more.", "*headbutts your hand*", "you may continue."],
   sick: ["I don't feel so good… 🤒", "*sniffle*", "липов чай? please?", "husband… I'm dying. (I have a cold.)"],
+  lofi: [
+    "this beat is perfect for debugging.",
+    "the lofi girl is studying. so am I. kind of.",
+    "*nods to the beat*",
+    "lofi + rain + code = perfection.",
+    "husband, come listen! it's the good stuff.",
+  ],
   sleepPet: ["*sleepy mrrp*", "zzz… five more minutes…"],
 };
 
@@ -518,6 +528,7 @@ function freshState() {
     zeroCounted: {},
     sick: null,
     lastRemedy: 0,
+    volume: 10,
     form: null,
     counts: { pets: 0, banitsa: 0, coffee: 0, redbull: 0, mugs: 0, sweet: 0, pawStreak: 0, tasted: [],
       zone: 0, grooms: 0, yarn: 0, worn: [], doneIds: [] },
@@ -549,6 +560,7 @@ let transientMood = null;
 let transientUntil = 0;
 let lastTick = state.savedAt;
 let laser = null;
+let radioOn = false;
 
 // ---------- helpers ----------
 
@@ -616,11 +628,12 @@ function rates() {
     return { food: -DECAY.food * 0.5 * sick, energy: SLEEP_REGEN, tidy: 0, joy: -DECAY.joy * 0.2 * sick };
   }
   const neglected = s.food === 0 || s.energy === 0;
+  const chill = radioOn ? 0.6 : 1;
   return {
     food: -DECAY.food * sick,
     energy: -DECAY.energy * sick,
     tidy: -DECAY.tidy * sick,
-    joy: -DECAY.joy * (neglected ? 2 : 1) * sick,
+    joy: -DECAY.joy * (neglected ? 2 : 1) * sick * chill,
   };
 }
 
@@ -837,6 +850,7 @@ function render() {
   kitty.dataset.acc = state.acc;
   kitty.dataset.form = state.form || "";
   kitty.classList.toggle("sick", !!state.sick);
+  kitty.classList.toggle("vibing", radioOn && !state.sleeping);
   const stage = stageOf(state.level);
   $("pet").dataset.stage = stage.id;
   $("stage-name").textContent = state.form ? FORMS.find((f) => f.id === state.form).name.toLowerCase() : stage.name;
@@ -1427,6 +1441,7 @@ function idleChatter() {
     const s = state.stats;
     const needs = STATS.filter((k) => s[k] < 35).sort((a, b) => s[a] - s[b]);
     if (state.sick) say(pick(LINES.sick));
+    else if (radioOn && Math.random() < 0.3) say(pick(LINES.lofi));
     else if (needs.length) say(pick(LINES[needs[0]]));
     else if (isNight() && Math.random() < 0.4) say(pick(LINES.night));
     else if (currentMood() === "happy") say(pick(LINES.happy));
@@ -1475,6 +1490,73 @@ $("pet").addEventListener("click", () => {
   setMood("happy", 1400);
   if (++state.counts.pets >= 50) award("pets");
   if (Math.random() < 0.3) say(pick(LINES.pet), 1800);
+  save();
+  render();
+});
+
+// ---------- radio ----------
+
+// Lofi Girl's 24/7 stream; only loaded once the visitor presses play
+const LOFI_VIDEO = "rFZHOHl-L8A";
+let ytPlayer = null;
+let ytApi = null;
+
+// YouTube's player API is what lets us set the volume (it starts quiet instead of at full blast)
+function loadYouTubeApi() {
+  ytApi ??= new Promise((resolve) => {
+    window.onYouTubeIframeAPIReady = resolve;
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  });
+  return ytApi;
+}
+
+function showVolume() {
+  const v = state.volume;
+  $("radio-volume").value = v;
+  $("volume-label").textContent = `${v === 0 ? "🔇" : v < 50 ? "🔉" : "🔊"} ${v}%`;
+}
+
+$("radio-volume").addEventListener("input", (e) => {
+  state.volume = Number(e.target.value);
+  showVolume();
+  if (ytPlayer?.setVolume) ytPlayer.setVolume(state.volume);
+});
+$("radio-volume").addEventListener("change", save);
+showVolume();
+
+$("radio-btn").addEventListener("click", () => {
+  radioOn = !radioOn;
+  const player = $("radio-player");
+  if (radioOn) {
+    player.innerHTML = `<div id="yt-player"></div>`;
+    player.hidden = false;
+    loadYouTubeApi().then(() => {
+      if (!radioOn) return;
+      ytPlayer = new YT.Player("yt-player", {
+        host: "https://www.youtube-nocookie.com",
+        videoId: LOFI_VIDEO,
+        playerVars: { autoplay: 1, rel: 0, playsinline: 1 },
+        events: {
+          onReady: (e) => {
+            e.target.setVolume(state.volume);
+            e.target.playVideo();
+          },
+        },
+      });
+    });
+    award("lofi");
+    log("radio on: lofi beats 🎧", "good");
+    if (!state.sleeping) say("ooh, lofi! *bops* 🎧");
+  } else {
+    ytPlayer?.destroy();
+    ytPlayer = null;
+    player.innerHTML = "";
+    player.hidden = true;
+    log("radio off");
+  }
+  $("radio-btn").textContent = radioOn ? "⏹ stop" : "🎧 play lofi";
   save();
   render();
 });
