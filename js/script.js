@@ -351,6 +351,13 @@ const terminal = {
         content: `Bongo Cat ${container.style.display === 'none' ? 'is taking a break 😴' : 'is back! 🎵'}`
       };
     },
+    kotka: () => {
+      window.location.href = 'kotka/';
+      return {
+        type: 'success',
+        content: 'мяу? Waking up Pocket Vyley... 🌙'
+      };
+    },
     clear: () => {
       terminal.window.innerHTML = '';
       return null;
