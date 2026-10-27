@@ -35,6 +35,148 @@
                                 <div class="stars" aria-hidden="true"></div>
                                 <div class="moon" aria-hidden="true"></div>
                                 <div class="ground" aria-hidden="true"></div>
+
+                                <!-- unlockable rooms (the twilight sky above is the default) -->
+                                <svg class="room room-cave" viewBox="0 0 200 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+                                    <defs>
+                                        <linearGradient id="cave-wall" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0" stop-color="#0d0b18"/><stop offset="1" stop-color="#1d1733"/>
+                                        </linearGradient>
+                                        <linearGradient id="cave-sky" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0" stop-color="#1c1a3d"/><stop offset="0.6" stop-color="#4b2f78"/><stop offset="1" stop-color="#b0548f"/>
+                                        </linearGradient>
+                                        <radialGradient id="cave-glow">
+                                            <stop offset="0" stop-color="#7ed1e2" stop-opacity="0.3"/><stop offset="1" stop-color="#7ed1e2" stop-opacity="0"/>
+                                        </radialGradient>
+                                    </defs>
+                                    <rect width="200" height="170" fill="url(#cave-wall)"/>
+                                    <rect class="led" width="200" height="2.5"/>
+
+                                    <!-- window -->
+                                    <rect x="14" y="18" width="40" height="34" rx="2" fill="url(#cave-sky)" stroke="#3a2e5e" stroke-width="2.5"/>
+                                    <circle cx="45" cy="27" r="4.5" fill="#ffd9a0"/>
+                                    <circle cx="43" cy="25.5" r="4.2" fill="#1f1c42"/>
+                                    <circle cx="22" cy="25" r="0.6" fill="#fff"/><circle cx="29" cy="31" r="0.5" fill="#fff"/><circle cx="20" cy="38" r="0.5" fill="#fff"/>
+                                    <path d="M34 18 L34 52 M14 35 L54 35" stroke="#3a2e5e" stroke-width="1.8"/>
+
+                                    <!-- poster -->
+                                    <rect x="68" y="22" width="20" height="26" fill="#241a3a" stroke="#ff61d8" stroke-width="0.8"/>
+                                    <text x="78" y="38" text-anchor="middle" font-size="9" font-family="monospace" fill="#ff61d8">:3</text>
+                                    <text x="78" y="45" text-anchor="middle" font-size="3" font-family="monospace" fill="#c4b5fd">ship it</text>
+
+                                    <!-- floor -->
+                                    <ellipse cx="160" cy="78" rx="60" ry="48" fill="url(#cave-glow)"/>
+                                    <rect y="136" width="200" height="34" fill="#16122a"/>
+                                    <ellipse cx="100" cy="156" rx="72" ry="10" fill="#2a2046"/>
+
+                                    <!-- desk + computer -->
+                                    <rect x="118" y="100" width="82" height="5" fill="#3b2f55"/>
+                                    <rect x="124" y="105" width="4" height="31" fill="#2c2342"/>
+                                    <rect x="192" y="105" width="4" height="31" fill="#2c2342"/>
+                                    <rect x="157" y="90" width="6" height="9" fill="#2d2d3a"/>
+                                    <rect x="150" y="98" width="20" height="2" fill="#2d2d3a"/>
+                                    <rect x="134" y="56" width="52" height="36" rx="2" fill="#0b0d16" stroke="#3a3a4a" stroke-width="1.5"/>
+                                    <rect x="137" y="59" width="46" height="30" fill="#111a2e"/>
+                                    <g class="code">
+                                        <rect x="140" y="62" width="14" height="1.6" fill="#ff61d8"/><rect x="156" y="62" width="10" height="1.6" fill="#7ed1e2"/>
+                                        <rect x="143" y="66" width="20" height="1.6" fill="#ffcc81"/>
+                                        <rect x="143" y="70" width="12" height="1.6" fill="#7ed1e2"/><rect x="157" y="70" width="14" height="1.6" fill="#c4b5fd"/>
+                                        <rect x="146" y="74" width="18" height="1.6" fill="#a5ea9b"/>
+                                        <rect x="143" y="78" width="9" height="1.6" fill="#ff61d8"/><rect x="154" y="78" width="16" height="1.6" fill="#ffcc81"/>
+                                        <rect x="140" y="82" width="4" height="1.6" fill="#c4b5fd"/>
+                                        <rect class="cursor" x="146" y="81.6" width="2.4" height="2.4" fill="#e8e8e8"/>
+                                    </g>
+                                    <rect x="138" y="96.5" width="28" height="3.5" rx="1" fill="#222230"/>
+                                    <rect class="led" x="139" y="99.6" width="26" height="0.8"/>
+                                    <rect x="176" y="91" width="7" height="9" rx="1.2" fill="#ff9ec7"/>
+                                    <path d="M183 93.5 Q186.5 95.5 183 97.5" fill="none" stroke="#ff9ec7" stroke-width="1.2"/>
+                                    <path class="steam" d="M178.5 89 Q177 86 179 83 M181 89 Q182.5 85.5 180.5 82" fill="none" stroke="#c4b5fd" stroke-width="0.8" stroke-linecap="round"/>
+
+                                    <!-- laptop on a floor cushion -->
+                                    <ellipse cx="27" cy="139" rx="21" ry="6" fill="#4b2f78"/>
+                                    <rect x="16" y="117" width="23" height="16" rx="1" fill="#1a1a24" stroke="#3a3a4a" stroke-width="1"/>
+                                    <rect x="18" y="119" width="19" height="12" fill="#2b1f4d"/>
+                                    <rect x="20" y="122" width="9" height="1.2" fill="#ff61d8"/><rect x="20" y="125" width="13" height="1.2" fill="#7ed1e2"/>
+                                    <path d="M13 133 L42 133 L44 136 L11 136 Z" fill="#2d2d3a"/>
+                                </svg>
+
+                                <svg class="room room-servers" viewBox="0 0 200 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+                                    <defs>
+                                        <linearGradient id="srv-wall" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0" stop-color="#070d18"/><stop offset="1" stop-color="#10203a"/>
+                                        </linearGradient>
+                                        <linearGradient id="srv-floor" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0" stop-color="#1a2a44"/><stop offset="1" stop-color="#0d1626"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <rect width="200" height="170" fill="url(#srv-wall)"/>
+                                    <rect y="8" width="200" height="3" fill="#1f2d45"/>
+                                    <path d="M20 11 L20 30 M70 11 L70 46 M130 11 L130 46 M180 11 L180 30" stroke="#1f2d45" stroke-width="1.5"/>
+                                    <rect y="136" width="200" height="34" fill="url(#srv-floor)"/>
+                                    <path d="M0 146 L200 146 M0 158 L200 158 M40 136 L30 170 M80 136 L76 170 M120 136 L124 170 M160 136 L170 170" stroke="#22344f" stroke-width="0.6"/>
+                                    <g id="racks"></g>
+                                </svg>
+
+                                <svg class="room room-varna" viewBox="0 0 200 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+                                    <defs>
+                                        <linearGradient id="varna-sky" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0" stop-color="#2b2a6b"/><stop offset="0.45" stop-color="#b0548f"/><stop offset="0.8" stop-color="#f39a7b"/><stop offset="1" stop-color="#ffcc81"/>
+                                        </linearGradient>
+                                        <linearGradient id="varna-sea" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0" stop-color="#4a4b9a"/><stop offset="1" stop-color="#1e2457"/>
+                                        </linearGradient>
+                                        <linearGradient id="varna-sand" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0" stop-color="#e7b98a"/><stop offset="1" stop-color="#c98c62"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <rect width="200" height="100" fill="url(#varna-sky)"/>
+                                    <circle cx="100" cy="98" r="17" fill="#ffd9a0"/>
+                                    <rect y="96" width="200" height="44" fill="url(#varna-sea)"/>
+                                    <g class="shimmer" fill="#ffd9a0">
+                                        <rect x="86" y="100" width="28" height="1.5" rx="0.75"/>
+                                        <rect x="90" y="105" width="20" height="1.4" rx="0.7"/>
+                                        <rect x="94" y="111" width="12" height="1.3" rx="0.65"/>
+                                        <rect x="97" y="118" width="6" height="1.2" rx="0.6"/>
+                                    </g>
+                                    <path d="M0 132 Q50 126 100 131 T200 129 L200 170 L0 170 Z" fill="url(#varna-sand)"/>
+                                    <path class="wave" d="M0 132 Q50 126 100 131 T200 129" fill="none" stroke="#fff" stroke-width="1" opacity="0.5"/>
+                                    <path d="M40 40 q3 -3 6 0 q3 -3 6 0 M150 28 q2.5 -2.5 5 0 q2.5 -2.5 5 0 M128 50 q2 -2 4 0 q2 -2 4 0" fill="none" stroke="#241a3a" stroke-width="1.1" stroke-linecap="round"/>
+                                    <path d="M14 152 L18 112" stroke="#6b4a3a" stroke-width="1.6"/>
+                                    <path d="M-2 116 Q18 98 38 116 Z" fill="#ff6b6b"/>
+                                    <path d="M8 116 Q18 98 28 116 Z" fill="#fff" opacity="0.85"/>
+                                    <circle cx="182" cy="152" r="2.2" fill="#ffe0ea"/><circle cx="170" cy="160" r="1.6" fill="#fff4e0"/>
+                                </svg>
+
+                                <svg class="room room-vitosha" viewBox="0 0 200 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+                                    <defs>
+                                        <linearGradient id="vit-sky" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0" stop-color="#1c1a3d"/><stop offset="0.45" stop-color="#4b2f78"/><stop offset="0.75" stop-color="#b0548f"/><stop offset="1" stop-color="#f39a7b"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <rect width="200" height="125" fill="url(#vit-sky)"/>
+                                    <g fill="#fff">
+                                        <circle cx="20" cy="14" r="0.7"/><circle cx="58" cy="26" r="0.5"/><circle cx="96" cy="10" r="0.8"/>
+                                        <circle cx="134" cy="22" r="0.5"/><circle cx="170" cy="12" r="0.7"/><circle cx="186" cy="34" r="0.5"/>
+                                    </g>
+                                    <path d="M0 92 L22 78 L40 86 L66 70 L92 88 L120 80 L146 94 L174 76 L200 88 L200 125 L0 125 Z" fill="#5a3d7e"/>
+                                    <rect y="112" width="200" height="24" fill="#2b1f4d"/>
+                                    <g class="city" fill="#ffd9a0">
+                                        <circle cx="30" cy="118" r="0.8"/><circle cx="42" cy="122" r="0.7"/><circle cx="55" cy="116" r="0.9"/>
+                                        <circle cx="66" cy="124" r="0.7"/><circle cx="78" cy="119" r="0.8"/><circle cx="90" cy="126" r="0.7"/>
+                                        <circle cx="104" cy="117" r="0.9"/><circle cx="116" cy="123" r="0.7"/><circle cx="128" cy="119" r="0.8"/>
+                                        <circle cx="140" cy="125" r="0.7"/><circle cx="152" cy="118" r="0.9"/><circle cx="164" cy="122" r="0.7"/>
+                                        <circle cx="48" cy="128" r="0.7"/><circle cx="98" cy="130" r="0.8"/><circle cx="134" cy="130" r="0.7"/>
+                                    </g>
+                                    <path d="M0 136 L0 100 L18 92 L34 108 L46 118 L60 136 Z" fill="#3a2a5c"/>
+                                    <path d="M200 136 L200 96 L184 84 L166 104 L150 120 L140 136 Z" fill="#3a2a5c"/>
+                                    <path d="M0 136 Q100 128 200 136 L200 170 L0 170 Z" fill="#2a2046"/>
+                                    <path d="M0 136 Q100 128 200 136" fill="none" stroke="#ffd9a0" stroke-width="0.8" opacity="0.3"/>
+                                </svg>
+                                <div class="spooky" aria-hidden="true">
+                                    <span class="jack">🎃</span>
+                                    <span class="bat b1">🦇</span>
+                                    <span class="bat b2">🦇</span>
+                                </div>
                                 <div class="clutter" id="clutter"></div>
                                 <div class="speech" id="speech" role="status" aria-live="polite"></div>
                                 <div class="laser" id="laser" hidden></div>
@@ -202,6 +344,12 @@
                                                 <path class="stick" d="M50 19.5 L50 14"/>
                                                 <g class="blades"><ellipse cx="50" cy="13" rx="8" ry="1.7"/></g>
                                             </g>
+                                            <g class="acc acc-pumpkin">
+                                                <path class="stem" d="M49 12 Q48 8 51 6 L52.5 7.5 Q51 9 51.5 12 Z"/>
+                                                <ellipse class="body" cx="50" cy="21" rx="14" ry="9.5"/>
+                                                <path class="rib" d="M44 13 Q40 21 44 30 M56 13 Q60 21 56 30 M50 11.5 L50 30.5"/>
+                                                <path class="carve" d="M42 18 L45.5 18 L43.75 15 Z M54.5 18 L58 18 L56.25 15 Z M42 23 L45 26 L48 23.5 L50 26 L52 23.5 L55 26 L58 23 Q50 29 42 23 Z"/>
+                                            </g>
                                             <g class="acc acc-crown">
                                                 <path d="M37 27 L39 15 L45 22 L50 12 L55 22 L61 15 L63 27 Z"/>
                                                 <circle cx="50" cy="20" r="1.8" class="gem"/>
@@ -229,8 +377,9 @@
                         <button data-action="sleep" id="sleep-btn">💤 nap</button>
                         <button data-action="groom">🪮 groom</button>
                         <button data-action="tasks" class="wide" id="tasks-btn">💻 assign a ticket</button>
-                        <button data-action="wardrobe" class="half">🎀 wardrobe</button>
-                        <button data-action="trophies" class="half">🏆 trophies</button>
+                        <button data-action="wardrobe" class="third">🎀 wardrobe</button>
+                        <button data-action="rooms" class="third">🖼️ rooms</button>
+                        <button data-action="trophies" class="third">🏆 trophies</button>
                     </div>
                 </section>
 
@@ -284,7 +433,11 @@
                         <div class="log" id="log"></div>
                     </div>
 
-                    <button class="reset" id="reset">rm -rf ./kotka (start over)</button>
+                    <div class="save-tools">
+                        <button class="saves" id="saves" type="button">scp ./kotka (export / import save)</button>
+                        <button class="reset" id="reset" type="button">rm -rf ./kotka (start over)</button>
+                    </div>
+                    <input type="file" id="import-file" accept=".json,application/json,text/plain" hidden>
                 </section>
             </div>
         </div>

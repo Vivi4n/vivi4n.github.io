@@ -34,6 +34,7 @@ const FOODS = [
   { id: "treats", emoji: "🍬", name: "Kitty treats", desc: "*shakes bag*", food: 8, joy: 14 },
   { id: "coffee", emoji: "☕", name: "Coffee", desc: "developer fuel", food: 3, energy: 18, joy: 2 },
   { id: "redbull", emoji: "🥫", name: "Red Bull", desc: "zoomies in a can", food: 2, energy: 30, joy: 4, tidy: -6 },
+  { id: "tikvenik", emoji: "🎃", name: "Tikvenik", desc: "pumpkin pastry, only around Halloween", food: 22, joy: 12, season: "halloween" },
 ];
 
 // drinks can still go down when Vyley is full
@@ -56,6 +57,7 @@ const FOOD_REACTIONS = {
   boza: "boza! nobody outside Bulgaria understands. that's fine.",
   curry: "curry night! warm, spicy, like a hug with opinions.",
   redbull: "*vibrates* I CAN SEE THROUGH TIME",
+  tikvenik: "tikvenik! pumpkin, walnuts, cinnamon. this is what October is for. 🎃",
 };
 
 const TASKS = [
@@ -381,6 +383,31 @@ const TASKS = [
       "Seven lakes, each one bluer than the last:\nthe Tear, the Eye, the Kidney, the Twin, the Trefoil, the Fish and the Lower Lake.\nI'm tired, sunburnt and very, very happy. 🏞️",
     ],
   },
+
+  // ----- halloween (only on the board around 31 October) -----
+  {
+    id: "trick", name: "Go trick-or-treating", secs: 60, minLevel: 1, xp: 25, season: "halloween",
+    cost: { energy: 8 }, gain: { joy: 15, food: 6 },
+    outputs: [
+      "Went door to door dressed as a tiny pumpkin.\nGot 4 chocolates, 1 apple and a confused look from the neighbour who doesn't do Halloween.\nShared the chocolates with my husband. (Most of them.) 🎃",
+      "\"Trick or treat!\"\nThey said treat. I took the treat AND did a trick (knocked their pumpkin off the step).\nBest of both worlds.",
+    ],
+  },
+  {
+    id: "pumpkin", name: "Carve a pumpkin with my husband", secs: 90, minLevel: 1, xp: 35, season: "halloween",
+    cost: { energy: 6, tidy: 15 }, gain: { joy: 14 },
+    outputs: [
+      "Carved a little cat face into it. Ears and everything.\nSaved the insides for tikvenik. Nothing goes to waste in this house.\nIt's the best pumpkin on the street. It looks like me, so obviously.",
+      "My husband carved a scary face. I carved a :3 face.\nWe put them next to each other on the windowsill.\nThat's us. That's the whole marriage.",
+    ],
+  },
+  {
+    id: "kukeri", name: "Scare off spirits with the kukeri", secs: 180, minLevel: 3, xp: 70, season: "halloween",
+    cost: { energy: 18, food: 8 }, gain: { joy: 20 },
+    outputs: [
+      "Halloween is cute, but Bulgaria has kukeri: huge furry costumes, scary masks and giant bells.\nI joined in wearing my bell collar. The bad spirits left. So did the neighbour's dog.\nДрън-дрън. 🔔",
+    ],
+  },
 ];
 
 // stretch the base lengths above: quick tickets get noticeably longer, long ones only a little,
@@ -412,7 +439,21 @@ const WARDROBE = [
   { id: "propeller", name: "Propeller cap", desc: "for debugging at altitude", trophy: "dns" },
   { id: "party", name: "Party hat", desc: "every release is a party", trophy: "tickets25" },
   { id: "rose", name: "Kazanlak rose", desc: "a gift from my husband", trophy: "wifey" },
+  { id: "pumpkin", name: "Pumpkin hat", desc: "a tiny jack-o'-lantern :3", trophy: "trickortreat" },
 ];
+
+// backgrounds for the screen; the rest unlock with levels or by finishing a ticket
+const ROOMS = [
+  { id: "twilight", name: "Twilight sky", desc: "where it all began", lv: 1 },
+  { id: "cave", name: "Dev cave", desc: "lights off, monitor on, RGB on everything", lv: 3 },
+  { id: "servers", name: "Server room", desc: "warm racks and blinking lights", ticket: "rack" },
+  { id: "varna", name: "Black Sea at Varna", desc: "sunset over the water", ticket: "varna" },
+  { id: "vitosha", name: "Vitosha at dusk", desc: "Sofia's lights far below", ticket: "vitosha" },
+];
+
+function roomUnlocked(r) {
+  return r.ticket ? state.counts.doneIds.includes(r.ticket) : state.level >= r.lv;
+}
 
 function wardrobeUnlocked(w) {
   return w.trophy ? state.trophies.includes(w.trophy) : state.level >= w.lv;
@@ -466,6 +507,8 @@ const TROPHIES = [
   { id: "owl", icon: "🦉", name: "Night owl", desc: "Hang out with Vyley after 22:00" },
   { id: "friday", icon: "🚀", name: "Brave soul", desc: "Survive a Friday deploy" },
   { id: "vitosha", icon: "🏔️", name: "Top of the world", desc: "Watch the twilight from Vitosha" },
+  { id: "trickortreat", icon: "🎃", name: "Trick or treat", desc: "Go trick-or-treating at Halloween" },
+  { id: "decor", icon: "🖼️", name: "Interior designer", desc: "Move Vyley into a new room" },
 ];
 
 const LINES = {
@@ -506,7 +549,49 @@ const LINES = {
     "husband, come listen! it's the good stuff.",
   ],
   sleepPet: ["*sleepy mrrp*", "zzz… five more minutes…"],
+  halloween: [
+    "boo! :3 …did I scare you? say yes.",
+    "a black cat at Halloween. I'm basically a celebrity right now.",
+    "I'm not scared of ghosts. I'm scared of the vacuum.",
+    "trick or treat? (treat. it's always treat.)",
+    "the twilight is extra spooky this week. I love it.",
+    "husband, can we carve a pumpkin? please? 🎃",
+  ],
 };
+
+const ROOM_LINES = {
+  twilight: ["back under the purple sky. my favourite.", "home sweet twilight :3"],
+  cave: ["lights off. monitor on. it's coding time.", "the RGB makes me code 20% faster. science.", "my husband's battlestation. I live here now."],
+  servers: ["it's so warm in here… *loafs*", "the blinky lights are blinking at me. I'm blinking back."],
+  varna: ["sand in my paws again. worth it.", "the Black Sea is purple at sunset. did you know?"],
+  vitosha: ["Sofia looks so tiny from up here.", "this is the spot. the twilight spot. 🌙"],
+};
+
+// server racks for the server room, with blinking lights drawn in
+const RACKS = [[6, 30, 34, 106], [58, 48, 24, 88], [118, 48, 24, 88], [160, 30, 34, 106]];
+const LED_COLORS = ["#a5ea9b", "#a5ea9b", "#7ed1e2", "#ffcc81"];
+
+function buildRacks() {
+  const ns = "http://www.w3.org/2000/svg";
+  const g = $("racks");
+  const el = (tag, attrs) => {
+    const node = document.createElementNS(ns, tag);
+    for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+    g.appendChild(node);
+    return node;
+  };
+  for (const [x, y, w, h] of RACKS) {
+    el("rect", { x, y, width: w, height: h, rx: 1.5, fill: "#151f31", stroke: "#2c3a52", "stroke-width": 1 });
+    for (let row = y + 5; row < y + h - 4; row += 7) {
+      el("rect", { x: x + 2.5, y: row, width: w - 5, height: 5, fill: "#0d1524" });
+      for (let i = 0; i < 3; i++) {
+        const led = el("circle", { cx: x + w - 5 - i * 3, cy: row + 2.5, r: 0.8, fill: pick(LED_COLORS), class: "rack-led" });
+        led.style.animationDelay = `${(-Math.random() * 1.4).toFixed(2)}s`;
+        led.style.animationDuration = `${(0.6 + Math.random() * 1.6).toFixed(2)}s`;
+      }
+    }
+  }
+}
 
 // ---------- state ----------
 
@@ -522,6 +607,7 @@ function freshState() {
     sleeping: false,
     task: null,
     acc: "none",
+    room: "twilight",
     trophies: [],
     mistakes: 0,
     zeroSince: {},
@@ -535,14 +621,16 @@ function freshState() {
   };
 }
 
+// fill in anything an older save doesn't have yet
+function hydrate(saved) {
+  const fresh = freshState();
+  return { ...fresh, ...saved, counts: { ...fresh.counts, ...saved.counts } };
+}
+
 function load() {
   try {
     const raw = localStorage.getItem(SAVE_KEY);
-    if (raw) {
-      const fresh = freshState();
-      const saved = JSON.parse(raw);
-      return { ...fresh, ...saved, counts: { ...fresh.counts, ...saved.counts } };
-    }
+    if (raw) return hydrate(JSON.parse(raw));
   } catch (e) {}
   return null;
 }
@@ -597,6 +685,17 @@ function isNight() {
   return h >= 22 || h < 6;
 }
 
+// 24 October – 2 November
+function isHalloween() {
+  const d = new Date();
+  return (d.getMonth() === 9 && d.getDate() >= 24) || (d.getMonth() === 10 && d.getDate() <= 2);
+}
+
+// seasonal snacks and tickets only show up during their season
+function inSeason(x) {
+  return !x.season || (x.season === "halloween" && isHalloween());
+}
+
 function applyChanges(changes) {
   for (const k of STATS) if (changes[k]) state.stats[k] = clamp(state.stats[k] + changes[k]);
 }
@@ -620,10 +719,22 @@ function netChanges(t) {
 
 // ---------- simulation ----------
 
+// while nobody is watching (tab closed, hidden or the computer asleep) she curls up and dozes,
+// so a night away leaves her hungry and a bit lonely instead of neglected
+const UNWATCHED = { food: 0.12, energy: 1, tidy: 0.05, joy: 0.08 };
+
 // per-minute stat changes right now (sickness makes everything drain faster)
-function rates() {
+function rates(unwatched) {
   const s = state.stats;
   const sick = state.sick ? 1.5 : 1;
+  if (unwatched) {
+    return {
+      food: -UNWATCHED.food * sick,
+      energy: state.sleeping ? SLEEP_REGEN : UNWATCHED.energy,
+      tidy: -UNWATCHED.tidy * sick,
+      joy: -UNWATCHED.joy * sick,
+    };
+  }
   if (state.sleeping) {
     return { food: -DECAY.food * 0.5 * sick, energy: SLEEP_REGEN, tidy: 0, joy: -DECAY.joy * 0.2 * sick };
   }
@@ -637,9 +748,9 @@ function rates() {
   };
 }
 
-function decay(minutes, from) {
+function decay(minutes, from, unwatched) {
   if (minutes <= 0 || state.task) return;
-  const r = rates();
+  const r = rates(unwatched);
   for (const k of STATS) {
     const before = state.stats[k];
     state.stats[k] = clamp(before + r[k] * minutes);
@@ -648,7 +759,7 @@ function decay(minutes, from) {
       state.zeroSince[k] = before > 0 && r[k] < 0 ? from + (before / -r[k]) * 60000 : from;
     }
   }
-  catchBug(minutes);
+  catchBug(minutes, unwatched);
 }
 
 // ---------- care mistakes + sickness ----------
@@ -662,27 +773,30 @@ function careMistake(reason) {
   log(`💔 care mistake #${state.mistakes}: Vyley ${reason}`, "bad");
 }
 
-function checkCare(now) {
+// coming back from a long absence costs at most `limit` mistakes; the rest are forgiven
+function checkCare(now, limit = Infinity) {
+  let made = 0;
   for (const k of STATS) {
     if (state.stats[k] > 10) {
       state.zeroSince[k] = null;
       state.zeroCounted[k] = false;
     } else if (state.zeroSince[k] && !state.zeroCounted[k] && now - state.zeroSince[k] >= MISTAKE_AFTER) {
       state.zeroCounted[k] = true;
+      if (made++ >= limit) continue;
       careMistake(`${NEGLECT[k]} for too long`);
       if (!state.sick && Math.random() < 0.5) getSick("being neglected wore her down");
     }
   }
   if (state.sick && !state.sick.counted && now - state.sick.since >= SICK_MISTAKE_AFTER) {
     state.sick.counted = true;
-    careMistake("was left sick for too long");
+    if (made < limit) careMistake("was left sick for too long");
   }
 }
 
-function catchBug(minutes) {
+function catchBug(minutes, unwatched) {
   if (state.sick) return;
   const messy = state.stats.tidy < 15;
-  const perMinute = 0.0005 + (messy ? 0.03 : 0);
+  const perMinute = (0.0005 + (messy ? 0.03 : 0)) * (unwatched ? 0.25 : 1);
   if (Math.random() < 1 - Math.pow(1 - perMinute, minutes)) {
     getSick(messy ? "the messy desk made her sick" : "caught a cold");
   }
@@ -778,6 +892,8 @@ function addXp(amount) {
     log(`level up! now lv ${state.level}: ${levelTitle(state.level)} ✦`, "good");
     const unlocked = WARDROBE.find((w) => w.lv === state.level);
     if (unlocked) log(`wardrobe unlocked: ${unlocked.name.toLowerCase()} 🎀`, "good");
+    const room = ROOMS.find((r) => r.lv === state.level);
+    if (room) log(`new room unlocked: ${room.name.toLowerCase()} 🖼️`, "good");
     setMood("happy", 3000);
     say(`честито! level ${state.level}! :3`);
     burst("✦", 6);
@@ -805,11 +921,15 @@ function checkTrophies() {
   if (h >= 18 && h < 21 && !state.task) award("golden");
 }
 
+// gaps longer than this mean the page wasn't running (closed tab, sleeping computer)
+const LONG_GAP = 5 * 60000;
+
 function tick() {
   const now = Date.now();
-  decay((now - lastTick) / 60000, lastTick);
+  const gap = now - lastTick;
+  decay(gap / 60000, lastTick, document.hidden || gap > LONG_GAP);
   lastTick = now;
-  checkCare(now);
+  checkCare(now, gap > LONG_GAP ? 1 : Infinity);
 
   if (state.task && now >= state.task.end) finishTask();
 
@@ -881,6 +1001,8 @@ function render() {
 
   const screen = $("screen");
   screen.classList.toggle("night", isNight());
+  screen.classList.toggle("halloween", isHalloween());
+  screen.dataset.room = state.room;
   screen.classList.toggle("sleeping", state.sleeping);
 
   const away = !!state.task;
@@ -897,7 +1019,7 @@ function render() {
 
   for (const btn of document.querySelectorAll("#actions button")) {
     const a = btn.dataset.action;
-    const always = a === "trophies" || a === "wardrobe";
+    const always = a === "trophies" || a === "wardrobe" || a === "rooms";
     btn.disabled = !always && (away || !!laser || (state.sleeping && a !== "sleep"));
   }
   $("sleep-btn").textContent = state.sleeping ? "☀ wake" : "💤 nap";
@@ -1018,7 +1140,7 @@ const actions = {
     const full = state.stats.food >= 95;
     openModal("feed vyley", (body) => {
       if (full) body.appendChild(para("*pats tummy* I'm so full. maybe a coffee though?"));
-      for (const f of FOODS) {
+      for (const f of FOODS.filter(inSeason)) {
         body.appendChild(choiceButton({
           name: `${f.emoji} ${f.name}`,
           desc: f.desc,
@@ -1103,7 +1225,7 @@ const actions = {
       if (sulking) body.appendChild(para("…not in the mood. play with me first? 😿"));
       else if (STATS.every((k) => s[k] >= 70)) body.appendChild(para("I'm feeling great. in the zone! (+25% xp)"));
       else if (STATS.some((k) => s[k] < 30)) body.appendChild(para("I'm a bit distracted… (-40% xp until you look after me)"));
-      const sorted = [...TASKS].sort((a, b) => a.minLevel - b.minLevel || a.secs - b.secs);
+      const sorted = TASKS.filter(inSeason).sort((a, b) => a.minLevel - b.minLevel || a.secs - b.secs);
       for (const t of sorted.filter((x) => state.level >= x.minLevel)) {
         const short = STATS.filter((k) => (t.cost[k] || 0) > 0 && state.stats[k] < t.cost[k] + 5);
         const desc = short.length
@@ -1183,6 +1305,35 @@ const actions = {
     });
   },
 
+  rooms() {
+    openModal("rooms", (body) => {
+      for (const r of ROOMS) {
+        const locked = !roomUnlocked(r);
+        const how = r.ticket
+          ? `finish the ticket: ${TASKS.find((t) => t.id === r.ticket).name.toLowerCase()}`
+          : `unlocks at lv ${r.lv}`;
+        body.appendChild(choiceButton({
+          name: locked ? "🔒 ???" : r.name,
+          desc: locked ? how : r.desc,
+          tag: state.room === r.id ? "here now" : "",
+          on: state.room === r.id,
+          disabled: locked,
+          onClick: () => {
+            if (state.room !== r.id) {
+              state.room = r.id;
+              if (r.id !== "twilight") award("decor");
+              log(`moved to: ${r.name.toLowerCase()} 🖼️`);
+              say(pick(ROOM_LINES[r.id]));
+            }
+            save();
+            render();
+            actions.rooms();
+          },
+        }));
+      }
+    });
+  },
+
   trophies() {
     openModal(`trophies ${state.trophies.length}/${TROPHIES.length}`, (body) => {
       for (const t of TROPHIES) {
@@ -1212,7 +1363,7 @@ function eat(f) {
   if (f.id === "coffee" && ++state.counts.coffee >= 10) award("coffee");
   if (f.id === "redbull" && ++state.counts.redbull >= 5) award("redbull");
   if (!state.counts.tasted.includes(f.id)) state.counts.tasted.push(f.id);
-  if (state.counts.tasted.length >= FOODS.length) award("gourmet");
+  if (FOODS.every((x) => x.season || state.counts.tasted.includes(x.id))) award("gourmet");
   setTimeout(() => say(FOOD_REACTIONS[f.id]), 900);
   save();
   render();
@@ -1406,10 +1557,14 @@ function finishTask() {
   if (state.counts.sweet >= 15) award("married");
   if (state.tasksDone >= 100) award("workaholic");
   if (task.notes?.some((n) => n.startsWith("in the zone")) && ++state.counts.zone >= 10) award("zone");
-  if (!state.counts.doneIds.includes(t.id)) state.counts.doneIds.push(t.id);
+  if (!state.counts.doneIds.includes(t.id)) {
+    state.counts.doneIds.push(t.id);
+    const room = ROOMS.find((r) => r.ticket === t.id);
+    if (room) log(`new room unlocked: ${room.name.toLowerCase()} 🖼️`, "good");
+  }
   if (["varna", "monastery", "lakes", "vitosha"].every((id) => state.counts.doneIds.includes(id))) award("tour");
   if (t.id === "bongo") award("coworkers");
-  const trophyFor = { friday: "friday", vitosha: "vitosha", dns: "dns", horo: "horo", martenitsa: "babamarta", lakes: "lakes" };
+  const trophyFor = { friday: "friday", vitosha: "vitosha", dns: "dns", horo: "horo", martenitsa: "babamarta", lakes: "lakes", trick: "trickortreat" };
   if (trophyFor[t.id]) award(trophyFor[t.id]);
   log(`closed ticket: ${t.name.toLowerCase()} (+${xp}xp)`, "good");
   openModal("ticket report", (body) => {
@@ -1443,6 +1598,7 @@ function idleChatter() {
     if (state.sick) say(pick(LINES.sick));
     else if (radioOn && Math.random() < 0.3) say(pick(LINES.lofi));
     else if (needs.length) say(pick(LINES[needs[0]]));
+    else if (isHalloween() && Math.random() < 0.35) say(pick(LINES.halloween));
     else if (isNight() && Math.random() < 0.4) say(pick(LINES.night));
     else if (currentMood() === "happy") say(pick(LINES.happy));
     else say(pick(LINES.idle));
@@ -1573,6 +1729,139 @@ modal.addEventListener("close", () => {
   render();
 });
 
+// ---------- export / import (to move Vyley between computers) ----------
+
+const CODE_PREFIX = "VYLEY1:";
+
+function exportCode() {
+  save();
+  const bytes = new TextEncoder().encode(JSON.stringify(state));
+  let bin = "";
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return CODE_PREFIX + btoa(bin);
+}
+
+// accepts a save code or the raw JSON from a save file; throws if it isn't a Vyley
+function parseSave(text) {
+  text = text.trim();
+  let json = text;
+  if (text.startsWith(CODE_PREFIX)) {
+    const bin = atob(text.slice(CODE_PREFIX.length).replace(/\s+/g, ""));
+    json = new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
+  }
+  const saved = JSON.parse(json);
+  const ok = saved && typeof saved === "object" && saved.stats && STATS.every((k) => typeof saved.stats[k] === "number")
+    && Number.isFinite(saved.level) && Number.isFinite(saved.savedAt);
+  if (!ok) throw new Error("not a Pocket Vyley save");
+  return saved;
+}
+
+function downloadSave() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `pocket-vyley-lv${state.level}-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  log("exported save file 💾", "good");
+}
+
+function confirmImport(saved) {
+  const age = fmtDuration(Date.now() - saved.bornAt);
+  openModal("import save", (body) => {
+    body.appendChild(para(`Found a lv ${saved.level} Vyley, ${age} old, with ${saved.tasksDone ?? 0} tickets closed and ${saved.trophies?.length ?? 0} trophies.`));
+    body.appendChild(para(`This replaces the Vyley on this computer (lv ${state.level}). There's no undo, so export this one first if you want to keep it.`));
+    body.appendChild(choiceButton({
+      name: "📥 yes, bring her over",
+      desc: "time since that save was made counts as time away",
+      onClick: () => {
+        modal.close();
+        importSave(saved);
+      },
+    }));
+    body.appendChild(choiceButton({ name: "cancel", onClick: () => actions.saves() }));
+  });
+}
+
+function importSave(saved) {
+  if (laser) endLaser();
+  state = hydrate(saved);
+  lastTick = Math.min(Date.now(), state.savedAt);
+  if (state.task && Date.now() >= state.task.end) finishTask();
+  tick();
+  log(`imported a save: lv ${state.level} ${levelTitle(state.level).toLowerCase()} 📥`, "good");
+  say("*sniffs around* new computer! same me. мяу :3");
+  setMood("happy", 2500);
+  burst("✦", 5);
+  save();
+  render();
+}
+
+function readImportText(text, msg) {
+  try {
+    confirmImport(parseSave(text));
+  } catch (e) {
+    msg.textContent = "hmm, that doesn't look like a Vyley save. 😿";
+    msg.classList.add("bad");
+  }
+}
+
+actions.saves = () => {
+  openModal("export / import save", (body) => {
+    body.appendChild(para("Moving Vyley to another computer? Export her here, then import her there. (She lives in only one place at a time: the other copy won't update by itself.)"));
+    const msg = document.createElement("div");
+    msg.className = "save-msg";
+    body.appendChild(choiceButton({
+      name: "💾 Download save file",
+      desc: "a .json file you can send or copy over",
+      onClick: downloadSave,
+    }));
+    body.appendChild(choiceButton({
+      name: "📋 Copy save code",
+      desc: "one long line of text, easy to paste into a chat",
+      onClick: async () => {
+        const code = exportCode();
+        try {
+          await navigator.clipboard.writeText(code);
+          msg.textContent = "copied! paste it into “paste a save code” on the other computer ✦";
+        } catch (e) {
+          area.value = code;
+          area.select();
+          msg.textContent = "couldn't copy automatically, so the code is in the box below. copy it from there.";
+        }
+        msg.classList.remove("bad");
+        log("copied save code 📋", "good");
+      },
+    }));
+    body.appendChild(choiceButton({
+      name: "📂 Load save file",
+      desc: "pick a .json file exported from Pocket Vyley",
+      onClick: () => $("import-file").click(),
+    }));
+    const area = document.createElement("textarea");
+    area.className = "save-code";
+    area.placeholder = "…or paste a save code here (starts with VYLEY1:)";
+    area.spellcheck = false;
+    body.appendChild(area);
+    body.appendChild(choiceButton({
+      name: "📝 Load pasted save code",
+      onClick: () => readImportText(area.value, msg),
+    }));
+    body.appendChild(msg);
+  });
+};
+
+$("saves").addEventListener("click", actions.saves);
+
+$("import-file").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if (!file) return;
+  const text = await file.text();
+  const msg = document.querySelector("#modal-body .save-msg") || document.createElement("div");
+  readImportText(text, msg);
+});
+
 $("reset").addEventListener("click", () => {
   if (!confirm("Start over with a brand new kitten? (all progress is lost)")) return;
   state = freshState();
@@ -1584,6 +1873,7 @@ $("reset").addEventListener("click", () => {
 });
 
 function greet(isNew) {
+  if (isHalloween()) log("🎃 it's Halloween week! spooky snacks and tickets until 2 November", "trophy");
   if (isNew) {
     log("a new kotka appeared at twilight 🌙", "good");
     setTimeout(() => say("мяу! I'm Vyley, a developer kitty. look after me? :3", 5000), 600);
@@ -1593,12 +1883,13 @@ function greet(isNew) {
   log(`welcome back (away ${fmtDuration(away)})`);
   if (state.sleeping) return;
   setTimeout(() => {
-    if (away > 10 * 60000) say(`you're back! it's been ${fmtDuration(away)}. I missed you. мяу.`);
+    if (away > 10 * 60000) say(`you're back! I napped the whole ${fmtDuration(away)} you were gone. I missed you. мяу.`);
     else say("oh hi again :3");
   }, 600);
 }
 
 if (state.level >= STAGES[2].from && !state.form) state.form = formFor(state.mistakes);
+buildRacks();
 
 // catch up on time spent away (stats don't decay while on a ticket)
 if (loaded) {
