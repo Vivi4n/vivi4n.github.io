@@ -608,6 +608,7 @@ function freshState() {
     task: null,
     acc: "none",
     room: "twilight",
+    recent: { play: [], caffeine: [] },
     trophies: [],
     mistakes: 0,
     zeroSince: {},
@@ -624,7 +625,7 @@ function freshState() {
 // fill in anything an older save doesn't have yet
 function hydrate(saved) {
   const fresh = freshState();
-  return { ...fresh, ...saved, counts: { ...fresh.counts, ...saved.counts } };
+  return { ...fresh, ...saved, counts: { ...fresh.counts, ...saved.counts }, recent: { ...fresh.recent, ...saved.recent } };
 }
 
 function load() {
@@ -705,6 +706,29 @@ function describeChanges(changes) {
     .filter(([, v]) => v)
     .map(([k, v]) => `${v > 0 ? "+" : ""}${v} ${STAT_NAMES[k]}`)
     .join(", ");
+}
+
+// ---------- anti-farming ----------
+
+// play is for joy, tickets are for xp: after a few games in a row, play xp fades out for a while
+const PLAY_WINDOW = 10 * 60000;
+const FRESH_PLAYS = 3;
+
+// caffeine stops working if she chugs it: each recent cup halves the next one, and after 3 she says no
+const CAFFEINE = ["coffee", "redbull"];
+const CAFFEINE_WINDOW = 30 * 60000;
+const CAFFEINE_LIMIT = 3;
+
+function recent(kind, windowMs) {
+  const now = Date.now();
+  state.recent[kind] = state.recent[kind].filter((t) => now - t < windowMs);
+  return state.recent[kind].length;
+}
+
+function playXp(base) {
+  const n = recent("play", PLAY_WINDOW);
+  state.recent.play.push(Date.now());
+  return Math.round(base * (n < FRESH_PLAYS ? 1 : 0.5 ** (n - FRESH_PLAYS + 1)));
 }
 
 function negate(obj) {
@@ -1138,14 +1162,20 @@ function para(text) {
 const actions = {
   feed() {
     const full = state.stats.food >= 95;
+    const cups = recent("caffeine", CAFFEINE_WINDOW);
+    const wired = cups >= CAFFEINE_LIMIT;
     openModal("feed vyley", (body) => {
       if (full) body.appendChild(para("*pats tummy* I'm so full. maybe a coffee though?"));
+      if (wired) body.appendChild(para("no more caffeine. my heart is doing a drum solo. 🥁 (a nap works better)"));
+      else if (cups) body.appendChild(para("(caffeine works less if she keeps chugging it. naps are the real fix)"));
       for (const f of FOODS.filter(inSeason)) {
+        const caffeinated = CAFFEINE.includes(f.id);
+        const energy = caffeinated ? Math.round(f.energy * 0.5 ** cups) : f.energy;
         body.appendChild(choiceButton({
           name: `${f.emoji} ${f.name}`,
-          desc: f.desc,
-          tag: describeChanges({ food: f.food, energy: f.energy, joy: f.joy, tidy: f.tidy }),
-          disabled: full && !DRINKS.includes(f.id),
+          desc: caffeinated && wired ? "too much caffeine. wait a bit" : f.desc,
+          tag: describeChanges({ food: f.food, energy, joy: f.joy, tidy: f.tidy }),
+          disabled: (full && !DRINKS.includes(f.id)) || (caffeinated && wired),
           onClick: () => {
             modal.close();
             eat(f);
@@ -1160,6 +1190,9 @@ const actions = {
       const tired = state.stats.energy < 8 || !!state.sick;
       if (state.sick) body.appendChild(para("*sniffle* too sick to run around… a gentle belly rub maybe?"));
       else if (tired) body.appendChild(para("*flops over* too sleepy to play… maybe a belly rub?"));
+      if (recent("play", PLAY_WINDOW) >= FRESH_PLAYS) {
+        body.appendChild(para("(we've played a lot just now, so games give less xp for a bit. still fun though ♡)"));
+      }
       body.appendChild(choiceButton({
         name: "🔴 Laser pointer", desc: "catch the red dot before it escapes", tag: "-8 energy",
         disabled: tired, onClick: startLaser,
@@ -1204,9 +1237,10 @@ const actions = {
       el.innerHTML = "";
       render();
     }, 650);
+    // a proper clean-up earns xp; a quick touch-up doesn't
+    if (state.stats.tidy < 60) addXp(3);
     state.stats.tidy = 100;
     applyChanges({ joy: 3 });
-    addXp(3);
     log("groomed fur & tidied the desk 🪮", "good");
     if (++state.counts.grooms >= 20) award("clean");
     setMood("happy", 1600);
@@ -1353,8 +1387,14 @@ const actions = {
 function eat(f) {
   // snacking when already well fed leaves crumbs everywhere
   const crumbs = state.stats.food > 75 ? -5 : 0;
-  applyChanges({ food: f.food, energy: f.energy, joy: f.joy, tidy: (f.tidy || 0) + crumbs });
-  addXp(1);
+  // only a meal she actually needed counts for xp (no ayran spam)
+  if (state.stats.food < 80) addXp(1);
+  let energy = f.energy;
+  if (CAFFEINE.includes(f.id)) {
+    energy = Math.round(f.energy * 0.5 ** recent("caffeine", CAFFEINE_WINDOW));
+    state.recent.caffeine.push(Date.now());
+  }
+  applyChanges({ food: f.food, energy, joy: f.joy, tidy: (f.tidy || 0) + crumbs });
   log(`ate: ${f.name.toLowerCase()} ${f.emoji}${crumbs ? " (crumbs everywhere)" : ""}`, "good");
   setMood("eat", 1800);
   burst(f.emoji, 3);
@@ -1390,7 +1430,7 @@ function playPaw() {
 
 function resolvePaw(won, star) {
   applyChanges({ energy: -5, food: -2, joy: won ? 16 : 8 });
-  addXp(won ? 8 : 3);
+  addXp(playXp(won ? 8 : 3));
   state.counts.pawStreak = won ? state.counts.pawStreak + 1 : 0;
   if (state.counts.pawStreak >= 3) award("paw");
   if (state.counts.pawStreak >= 5) award("lucky");
@@ -1419,7 +1459,7 @@ function resolvePaw(won, star) {
 function playYarn() {
   modal.close();
   applyChanges({ joy: 12, energy: -4, food: -2 });
-  addXp(4);
+  addXp(playXp(4));
   log("played with the yarn 🧶", "good");
   if (++state.counts.yarn >= 15) award("yarn");
   setMood("happy", 2400);
@@ -1439,7 +1479,7 @@ function bellyRub() {
     say("*CHOMP* …it was a trap. it's always a trap.");
   } else {
     applyChanges({ joy: 10 });
-    addXp(3);
+    addXp(playXp(3));
     setMood("happy", 2200);
     burst("purr", 3, "purr");
     log("belly rub: approved 💜", "good");
@@ -1497,7 +1537,7 @@ function endLaser() {
   $("laser-hud").hidden = true;
   $("pet").classList.remove("dash");
   applyChanges({ energy: -8, food: -3, joy: 6 + hits * 3 });
-  addXp(2 + hits * 2);
+  addXp(playXp(2 + hits * 2));
   if (hits >= 6) award("laser");
   if (hits >= 10) award("laserlegend");
   log(`laser pointer: caught it ${hits} time${hits === 1 ? "" : "s"} 🔴`, hits ? "good" : "");
