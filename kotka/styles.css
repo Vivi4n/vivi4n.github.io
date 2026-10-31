@@ -217,7 +217,11 @@ body {
 .screen[data-room="cave"] .room-cave,
 .screen[data-room="servers"] .room-servers,
 .screen[data-room="varna"] .room-varna,
-.screen[data-room="vitosha"] .room-vitosha { display: block; }
+.screen[data-room="vitosha"] .room-vitosha,
+.screen[data-room="kitchen"] .room-kitchen,
+.screen[data-room="fort"] .room-fort,
+.screen[data-room="plovdiv"] .room-plovdiv,
+.screen[data-room="rooftop"] .room-rooftop { display: block; }
 
 .room-cave .led { fill: #ff61d8; animation: rgb 6s linear infinite; }
 @keyframes rgb { 33% { fill: #7ed1e2; } 66% { fill: #c4b5fd; } }
@@ -232,6 +236,16 @@ body {
 .room-vitosha .city circle { animation: shimmer 1.8s ease-in-out infinite alternate; }
 .room-vitosha .city circle:nth-child(3n) { animation-delay: -0.6s; }
 .room-vitosha .city circle:nth-child(3n + 1) { animation-delay: -1.2s; }
+.room-kitchen .steam { animation: steam 2.4s ease-in-out infinite; }
+.room-fort .fairy circle { animation: shimmer 1.6s ease-in-out infinite alternate; }
+.room-fort .fairy circle:nth-child(odd) { animation-delay: -0.8s; }
+.room-plovdiv .lamp { animation: flicker-lamp 3s ease-in-out infinite; }
+@keyframes flicker-lamp { 50% { opacity: 0.7; } }
+.room-rooftop .twinkle circle { animation: shimmer 2.4s ease-in-out infinite alternate; }
+.room-rooftop .twinkle circle:nth-child(3n) { animation-delay: -0.8s; }
+.room-rooftop .twinkle circle:nth-child(3n + 1) { animation-delay: -1.6s; }
+.room-rooftop .city rect { animation: shimmer 2s ease-in-out infinite alternate; }
+.room-rooftop .city rect:nth-child(even) { animation-delay: -1s; }
 
 /* halloween week */
 .spooky { display: none; }
@@ -363,11 +377,22 @@ body {
 .kitty[data-acc="witch"] .acc-witch,
 .kitty[data-acc="rose"] .acc-rose,
 .kitty[data-acc="propeller"] .acc-propeller,
-.kitty[data-acc="pumpkin"] .acc-pumpkin { display: inline; }
+.kitty[data-acc="pumpkin"] .acc-pumpkin,
+.kitty[data-acc="tie"] .acc-tie,
+.kitty[data-acc="ushanka"] .acc-ushanka,
+.kitty[data-acc="straw"] .acc-straw,
+.kitty[data-acc="monocle"] .acc-monocle,
+.kitty[data-acc="hardhat"] .acc-hardhat,
+.kitty[data-acc="cheese"] .acc-cheese { display: inline; }
 .kitty[data-acc="witch"] .crescent,
-.kitty[data-acc="pumpkin"] .crescent { display: none; }
+.kitty[data-acc="pumpkin"] .crescent,
+.kitty[data-acc="straw"] .crescent,
+.kitty[data-acc="hardhat"] .crescent,
+.kitty[data-acc="cheese"] .crescent { display: none; }
 .kitty[data-acc="beanie"] .ear,
-.kitty[data-acc="beanie"] .crescent { display: none; }
+.kitty[data-acc="beanie"] .crescent,
+.kitty[data-acc="ushanka"] .ear,
+.kitty[data-acc="ushanka"] .crescent { display: none; }
 
 .acc-bow path, .acc-bow circle { fill: #ff6fa8; }
 .acc-glasses rect, .acc-glasses path { fill: rgba(126, 209, 226, 0.15); stroke: var(--ink); stroke-width: 1.8; }
@@ -418,6 +443,23 @@ body {
 .acc-pumpkin .rib { fill: none; stroke: #c96512; stroke-width: 0.8; }
 .acc-pumpkin .stem { fill: #5f8a3a; }
 .acc-pumpkin .carve { fill: #ffe08a; }
+.acc-tie .blade, .acc-tie .knot { fill: #569cfa; }
+.acc-tie .knot { stroke: #3d7ad6; stroke-width: 0.6; }
+.acc-tie .stripe { stroke: var(--moon); stroke-width: 1.1; }
+.acc-ushanka .fur-hat, .acc-ushanka .flap { fill: #7a5640; }
+.acc-ushanka .rim { fill: #b8977a; }
+.acc-ushanka .badge { fill: var(--moon); }
+.acc-straw .brim, .acc-straw .top { fill: #e8c77a; stroke: #c9a24f; stroke-width: 0.7; }
+.acc-straw .ribbon { fill: #ff6fa8; }
+.acc-straw .bloom { fill: #d6336c; }
+.acc-monocle .lens { fill: rgba(126, 209, 226, 0.15); stroke: #f6c445; stroke-width: 1.6; }
+.acc-monocle .chain { fill: none; stroke: #f6c445; stroke-width: 0.8; stroke-dasharray: 1.2 1; }
+.acc-hardhat .dome, .acc-hardhat .brim { fill: #f6c445; }
+.acc-hardhat .brim { stroke: #c9962a; stroke-width: 0.6; }
+.acc-hardhat .ridge { fill: none; stroke: #c9962a; stroke-width: 1; }
+.acc-cheese .wedge { fill: #f6c445; stroke: #d9a52a; stroke-width: 0.7; stroke-linejoin: round; }
+.acc-cheese .top { fill: #ffe08a; }
+.acc-cheese .hole { fill: #d9a52a; }
 
 /* idle motion */
 .kitty .bob { animation: bob 2.8s ease-in-out infinite; transform-origin: 50px 92px; }

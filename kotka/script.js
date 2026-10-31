@@ -30,6 +30,12 @@ const FOODS = [
   { id: "kiselo", emoji: "🥣", name: "Kiselo mlyako", desc: "real Bulgarian yogurt", food: 12, joy: 4, tidy: 4 },
   { id: "boza", emoji: "🥤", name: "Boza", desc: "thick, sweet, a bit weird", food: 10, joy: 8 },
   { id: "curry", emoji: "🍛", name: "Curry", desc: "warm and spicy", food: 28, joy: 10 },
+  { id: "mac", emoji: "🧀", name: "Mac & cheese", desc: "extra cheesy, crispy on top", food: 26, joy: 12 },
+  { id: "tofu", emoji: "🍢", name: "Crispy tofu", desc: "golden cubes, her favourite", food: 22, joy: 14 },
+  { id: "palachinki", emoji: "🥞", name: "Palachinki", desc: "thin pancakes with jam and walnuts", food: 18, joy: 10 },
+  { id: "mishmash", emoji: "🍳", name: "Mish-mash", desc: "eggs, peppers, tomatoes and sirene", food: 22, joy: 6, energy: 4 },
+  { id: "ramen", emoji: "🍜", name: "Ramen", desc: "late-night debugging soup", food: 24, joy: 8 },
+  { id: "popcorn", emoji: "🍿", name: "Popcorn", desc: "for watching my husband's stream", food: 8, joy: 10, tidy: -4 },
   { id: "tuna", emoji: "🐟", name: "Tuna", desc: "it's a cat thing", food: 22, joy: 10 },
   { id: "treats", emoji: "🍬", name: "Kitty treats", desc: "*shakes bag*", food: 8, joy: 14 },
   { id: "coffee", emoji: "☕", name: "Coffee", desc: "developer fuel", food: 3, energy: 18, joy: 2 },
@@ -56,6 +62,12 @@ const FOOD_REACTIONS = {
   kiselo: "the bacteria are literally named after Bulgaria. fun fact.",
   boza: "boza! nobody outside Bulgaria understands. that's fine.",
   curry: "curry night! warm, spicy, like a hug with opinions.",
+  mac: "mac & cheese!! the cheese pull goes on for a whole minute. :3",
+  tofu: "TOFU. crispy outside, soft inside. like me. 💜",
+  palachinki: "palachinki! one with jam, one with sirene. both for me.",
+  mishmash: "mish-mash for breakfast. now I can face the standup.",
+  ramen: "*slurps loudly* it's how you show respect.",
+  popcorn: "*crunch* *crunch* is the stream starting? *crunch*",
   redbull: "*vibrates* I CAN SEE THROUGH TIME",
   tikvenik: "tikvenik! pumpkin, walnuts, cinnamon. this is what October is for. 🎃",
 };
@@ -384,6 +396,130 @@ const TASKS = [
     ],
   },
 
+  // ----- more dev life + home -----
+  {
+    id: "tabs", name: "Close 200 browser tabs", secs: 25, minLevel: 1, xp: 12,
+    cost: { energy: 3 }, gain: { tidy: 8, joy: 2 },
+    outputs: [
+      "Closed 197 tabs.\nKept 3: the docs, the bug, and a video of a cat falling off a couch.\nPriorities.",
+      "Found a tab from March.\nIt was the answer to a bug I gave up on in March.\nCool. Cool cool cool.",
+    ],
+  },
+  {
+    id: "blame", name: "Find out who wrote this awful code", secs: 45, minLevel: 2, xp: 20,
+    cost: { energy: 4, joy: 4 }, gain: {},
+    outputs: [
+      "git blame\n\n…\n\nit was me. eight months ago.\nI'm not going to talk about it. I'm going to refactor it quietly.",
+    ],
+  },
+  {
+    id: "regex", name: "Write a regex that works on the first try", secs: 60, minLevel: 2, xp: 25,
+    cost: { energy: 8 }, gain: {},
+    outputs: [
+      "/^(?=.*\\d)(?!.*kotka).+$/\n\nIt did not work on the first try.\nIt worked on the fourteenth. That's basically the first.",
+      "Wrote a regex to match email addresses.\nIt matches email addresses, phone numbers and, somehow, the word \"мяу\".\nShipped it anyway.",
+    ],
+  },
+  {
+    id: "darkmode", name: "Add dark mode to everything", secs: 90, minLevel: 2, xp: 35,
+    cost: { energy: 10 }, gain: { joy: 6 },
+    outputs: [
+      "Dark mode everywhere: the app, the docs, the error pages.\nThe only light thing left is my husband's monitor at 3am.\nI'm working on that too.",
+    ],
+  },
+  {
+    id: "mac", name: "Cook mac & cheese for my husband", secs: 150, minLevel: 2, xp: 45,
+    cost: { energy: 10, tidy: 15 }, gain: { food: 22, joy: 14 },
+    outputs: [
+      "Three cheeses, a bit of mustard, crispy breadcrumbs on top.\nMy husband said \"this is the good stuff\" with his mouth full.\nI'm the good stuff. The mac & cheese is a close second. 🧀",
+      "Put sirene in it. Don't knock it till you've tried it.\nMy husband had seconds. Then thirds.\nThe pot is clean now. He licked the spoon. I licked the pot.",
+    ],
+  },
+  {
+    id: "printer", name: "Fix the office printer", secs: 150, minLevel: 3, xp: 55,
+    cost: { energy: 12, joy: 8 }, gain: {},
+    outputs: [
+      "PC LOAD LETTER.\nWhat does that mean. Nobody knows. Nobody has ever known.\nSat on it until it got warm and started printing. It respects me now.",
+    ],
+  },
+  {
+    id: "docs", name: "Write the docs nobody asked for", secs: 120, minLevel: 3, xp: 45,
+    cost: { energy: 10, tidy: 10 }, gain: { joy: 4 },
+    outputs: [
+      "Wrote a full setup guide, with screenshots.\nTwo days later someone asked how to set it up.\nSent them the link. Felt powerful.",
+    ],
+  },
+  {
+    id: "fort", name: "Build a blanket fort with my husband", secs: 180, minLevel: 4, xp: 60,
+    cost: { energy: 10, tidy: 15 }, gain: { joy: 22 },
+    outputs: [
+      "Two chairs, every blanket in the house and fairy lights.\nMy husband brought the laptop. I brought myself.\nWe're living in here now. Please forward our mail.",
+    ],
+  },
+  {
+    id: "lyutenitsa", name: "Make lyutenitsa with grandma", secs: 300, minLevel: 4, xp: 80,
+    cost: { energy: 15, tidy: 25 }, gain: { food: 15, joy: 15 },
+    outputs: [
+      "Roasted peppers in the yard all morning. The whole street smelled like autumn.\nGrandma stirred the pot for four hours and wouldn't let anyone else touch the spoon.\nTwenty jars. One is already open. That was me.",
+    ],
+  },
+  {
+    id: "postmortem", name: "Write the incident postmortem", secs: 240, minLevel: 5, xp: 85,
+    cost: { energy: 15, joy: 5 }, gain: {},
+    outputs: [
+      "What happened: the cache fell over.\nWhy: someone (a cat) sat on the restart button.\nAction items: get a cover for the restart button. Blameless, of course.",
+    ],
+  },
+  {
+    id: "interview", name: "Interview a new candidate (it's a dog)", secs: 240, minLevel: 5, xp: 80,
+    cost: { energy: 15 }, gain: { joy: 6 },
+    outputs: [
+      "Asked him to reverse a linked list.\nHe was very excited and fetched me a stick instead.\nStrong hire. Great culture fit. A little loud.",
+    ],
+  },
+  {
+    id: "rakia", name: "Help dyado bottle his rakia", secs: 180, minLevel: 5, xp: 60,
+    cost: { energy: 12, tidy: 10 }, gain: { joy: 12 },
+    outputs: [
+      "Dyado says this year's is his best one. He says that every year.\nI only sniffed it. My whiskers are still tingling.\nНаздраве, dyado. 🍑",
+    ],
+  },
+  {
+    id: "plovdiv", name: "Explore Plovdiv's Old Town", secs: 900, minLevel: 6, xp: 170,
+    cost: { energy: 20, food: 10 }, gain: { joy: 30 },
+    outputs: [
+      "Cobblestones, colourful old houses leaning over the street, and a Roman theatre just sitting there like it's normal.\nNapped on a warm wall in Kapana.\nPlovdiv is older than Rome. Plovdiv is also very sunny. 10/10.",
+    ],
+  },
+  {
+    id: "migration", name: "Run a database migration at midnight", secs: 420, minLevel: 6, xp: 140,
+    cost: { energy: 30, food: 10 }, gain: {},
+    outputs: [
+      "Backed up everything twice. Ran it. Held my breath.\n4 million rows later: done. Zero errors.\nI didn't trust it, so I checked again. Still zero. Going to bed.",
+    ],
+  },
+  {
+    id: "nestinari", name: "Watch the nestinari dance on embers", secs: 600, minLevel: 7, xp: 140,
+    cost: { energy: 10 }, gain: { joy: 25 },
+    outputs: [
+      "Down in a village in Strandzha, they danced barefoot on glowing embers with icons in their hands.\nThe drum went on and on. The sparks went up into the dark.\nI stayed well back. Cats and fire: no. But it was beautiful. 🔥",
+    ],
+  },
+  {
+    id: "snow", name: "Watch the first snow fall on Sofia", secs: 600, minLevel: 8, xp: 150,
+    cost: { energy: 10 }, gain: { joy: 30 },
+    outputs: [
+      "Sat on the windowsill while the whole city went quiet and white.\nTried to catch the flakes through the glass. Got none. Kept trying.\nMy husband made hot chocolate. Best night of the winter. ❄️",
+    ],
+  },
+  {
+    id: "talk", name: "Give a talk at a tech conference in Sofia", secs: 1200, minLevel: 9, xp: 260,
+    cost: { energy: 35, food: 15 }, gain: { joy: 30 },
+    outputs: [
+      "Title: \"It's always DNS: lessons from a cat in DevOps\".\nThe live demo worked, which has never happened before in history.\nMy husband was in the front row clapping the loudest. 🎤",
+    ],
+  },
+
   // ----- halloween (only on the board around 31 October) -----
   {
     id: "trick", name: "Go trick-or-treating", secs: 60, minLevel: 1, xp: 25, season: "halloween",
@@ -408,6 +544,13 @@ const TASKS = [
       "Halloween is cute, but Bulgaria has kukeri: huge furry costumes, scary masks and giant bells.\nI joined in wearing my bell collar. The bad spirits left. So did the neighbour's dog.\nДрън-дрън. 🔔",
     ],
   },
+  {
+    id: "costume", name: "Pick matching costumes with my husband", secs: 75, minLevel: 1, xp: 30, season: "halloween",
+    cost: { energy: 5 }, gain: { joy: 12 },
+    outputs: [
+      "Ideas we had: a ghost and a sheet, a witch and her cat, a server and its bug.\nWent with the witch and her cat. I'm the witch.\nMy husband is the cat. He's very good at it. 🧙",
+    ],
+  },
 ];
 
 // stretch the base lengths above: quick tickets get noticeably longer, long ones only a little,
@@ -419,7 +562,7 @@ for (const t of TASKS) {
 }
 
 // tickets that count towards "Best wife ever"
-const SWEET_TASKS = ["love", "div", "wifi", "stream", "curry", "kasmeti", "surprise"];
+const SWEET_TASKS = ["love", "div", "wifi", "stream", "curry", "kasmeti", "surprise", "mac", "fort", "costume"];
 
 const WARDROBE = [
   { id: "none", name: "Nothing", desc: "just fur", lv: 1 },
@@ -440,6 +583,12 @@ const WARDROBE = [
   { id: "party", name: "Party hat", desc: "every release is a party", trophy: "tickets25" },
   { id: "rose", name: "Kazanlak rose", desc: "a gift from my husband", trophy: "wifey" },
   { id: "pumpkin", name: "Pumpkin hat", desc: "a tiny jack-o'-lantern :3", trophy: "trickortreat" },
+  { id: "tie", name: "Necktie", desc: "for the all-hands meeting", lv: 8 },
+  { id: "ushanka", name: "Fur hat", desc: "for January in Sofia", lv: 11 },
+  { id: "straw", name: "Straw hat", desc: "rose-picking season in Kazanlak", lv: 12 },
+  { id: "monocle", name: "Monocle", desc: "for reading terraform plans very carefully", lv: 13 },
+  { id: "hardhat", name: "Hard hat", desc: "prod is a construction site", trophy: "friday" },
+  { id: "cheese", name: "Cheese hat", desc: "a wedge of pure joy", trophy: "cheesy" },
 ];
 
 // backgrounds for the screen; the rest unlock with levels or by finishing a ticket
@@ -449,6 +598,10 @@ const ROOMS = [
   { id: "servers", name: "Server room", desc: "warm racks and blinking lights", ticket: "rack" },
   { id: "varna", name: "Black Sea at Varna", desc: "sunset over the water", ticket: "varna" },
   { id: "vitosha", name: "Vitosha at dusk", desc: "Sofia's lights far below", ticket: "vitosha" },
+  { id: "kitchen", name: "Cozy kitchen", desc: "something's always bubbling on the stove", ticket: "mac" },
+  { id: "fort", name: "Blanket fort", desc: "fairy lights and every pillow in the house", ticket: "fort" },
+  { id: "plovdiv", name: "Plovdiv Old Town", desc: "cobblestones and painted houses", ticket: "plovdiv" },
+  { id: "rooftop", name: "Rooftop at night", desc: "a telescope and a sky full of stars", ticket: "stars" },
 ];
 
 function roomUnlocked(r) {
@@ -509,6 +662,8 @@ const TROPHIES = [
   { id: "vitosha", icon: "🏔️", name: "Top of the world", desc: "Watch the twilight from Vitosha" },
   { id: "trickortreat", icon: "🎃", name: "Trick or treat", desc: "Go trick-or-treating at Halloween" },
   { id: "decor", icon: "🖼️", name: "Interior designer", desc: "Move Vyley into a new room" },
+  { id: "cheesy", icon: "🧀", name: "Say cheese", desc: "Eat 10 bowls of mac & cheese" },
+  { id: "homes", icon: "🏡", name: "Property kotka", desc: "Unlock every room" },
 ];
 
 const LINES = {
@@ -565,6 +720,10 @@ const ROOM_LINES = {
   servers: ["it's so warm in here… *loafs*", "the blinky lights are blinking at me. I'm blinking back."],
   varna: ["sand in my paws again. worth it.", "the Black Sea is purple at sunset. did you know?"],
   vitosha: ["Sofia looks so tiny from up here.", "this is the spot. the twilight spot. 🌙"],
+  kitchen: ["something smells amazing. is it for me? it's for me.", "I'm not on the counter. you didn't see anything."],
+  fort: ["password to enter the fort: мяу.", "no grown-ups allowed. except my husband."],
+  plovdiv: ["the cobblestones are warm from the sun. *flops*", "these houses are older than my whole codebase."],
+  rooftop: ["so many stars up here. I'm counting them. don't distract me.", "found my purple star again ✦"],
 };
 
 // server racks for the server room, with blinking lights drawn in
@@ -617,7 +776,7 @@ function freshState() {
     lastRemedy: 0,
     volume: 10,
     form: null,
-    counts: { pets: 0, banitsa: 0, coffee: 0, redbull: 0, mugs: 0, sweet: 0, pawStreak: 0, tasted: [],
+    counts: { pets: 0, banitsa: 0, coffee: 0, redbull: 0, mac: 0, mugs: 0, sweet: 0, pawStreak: 0, tasted: [],
       zone: 0, grooms: 0, yarn: 0, worn: [], doneIds: [] },
   };
 }
@@ -744,7 +903,9 @@ function netChanges(t) {
 // ---------- simulation ----------
 
 // while nobody is watching (tab closed, hidden or the computer asleep) she curls up and dozes,
-// so a night away leaves her hungry and a bit lonely instead of neglected
+// so a night away leaves her hungry and a bit lonely instead of neglected.
+// these are the starting rates: she rations as she gets low, so the drain slows down
+// (full snacks: ~42 after 12h, ~18 after a day, never quite empty)
 const UNWATCHED = { food: 0.12, energy: 1, tidy: 0.05, joy: 0.08 };
 
 // per-minute stat changes right now (sickness makes everything drain faster)
@@ -777,7 +938,9 @@ function decay(minutes, from, unwatched) {
   const r = rates(unwatched);
   for (const k of STATS) {
     const before = state.stats[k];
-    state.stats[k] = clamp(before + r[k] * minutes);
+    state.stats[k] = unwatched && r[k] < 0
+      ? before * Math.exp((r[k] * minutes) / 100)
+      : clamp(before + r[k] * minutes);
     // remember when a stat bottomed out, even if that happened while the tab was closed
     if (state.stats[k] === 0 && !state.zeroSince[k]) {
       state.zeroSince[k] = before > 0 && r[k] < 0 ? from + (before / -r[k]) * 60000 : from;
@@ -940,6 +1103,7 @@ function award(id) {
 
 function checkTrophies() {
   if (STATS.every((k) => state.stats[k] > 95)) award("purrfect");
+  if (ROOMS.every(roomUnlocked)) award("homes");
   if (isNight() && !state.sleeping && !state.task) award("owl");
   const h = new Date().getHours();
   if (h >= 18 && h < 21 && !state.task) award("golden");
@@ -1402,6 +1566,7 @@ function eat(f) {
   if (state.counts.banitsa >= 25) award("baron");
   if (f.id === "coffee" && ++state.counts.coffee >= 10) award("coffee");
   if (f.id === "redbull" && ++state.counts.redbull >= 5) award("redbull");
+  if (f.id === "mac" && ++state.counts.mac >= 10) award("cheesy");
   if (!state.counts.tasted.includes(f.id)) state.counts.tasted.push(f.id);
   if (FOODS.every((x) => x.season || state.counts.tasted.includes(x.id))) award("gourmet");
   setTimeout(() => say(FOOD_REACTIONS[f.id]), 900);
